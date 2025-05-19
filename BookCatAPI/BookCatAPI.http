@@ -1,0 +1,6 @@
+@BookCatAPI_HostAddress = http://localhost:5107
+
+GET {{BookCatAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
