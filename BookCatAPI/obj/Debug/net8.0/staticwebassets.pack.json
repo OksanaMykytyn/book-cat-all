@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-23\\dddd.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-23\\dddd.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-23\\ssssssss.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-23\\ssssssss.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-23\\tt.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-23\\tt.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-24\\ntcn.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-24\\ntcn.docx"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BookCatAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BookCatAPI.props",
+      "PackagePath": "build\\BookCatAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BookCatAPI.props",
+      "PackagePath": "buildMultiTargeting\\BookCatAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BookCatAPI.props",
+      "PackagePath": "buildTransitive\\BookCatAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

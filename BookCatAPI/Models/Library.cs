@@ -13,7 +13,7 @@ namespace BookCatAPI.Models
         public int StartInventory { get; set; } = 0;
         [Column("data_end_plan")]
         public DateTime? DataEndPlan { get; set; }
-        public string Status { get; set; } = "active";
+        public string Status { get; set; } = "pending";
         [Column("dark_theme")]
         public bool DarkTheme { get; set; } = false;
         [Column("create_at")]

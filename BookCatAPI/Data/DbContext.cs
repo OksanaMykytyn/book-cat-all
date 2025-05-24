@@ -32,13 +32,16 @@ namespace BookCatAPI.Data
             modelBuilder.Entity<Library>()
                 .HasMany(l => l.Books)
                 .WithOne(b => b.Library)
-                .HasForeignKey(b => b.LibraryId);
+                .HasForeignKey(b => b.LibraryId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
             modelBuilder.Entity<Library>()
                 .HasMany(l => l.Documents)
                 .WithOne(d => d.Library)
-                .HasForeignKey(d => d.LibraryId);
+                .HasForeignKey(d => d.LibraryId)
+                .OnDelete(DeleteBehavior.Restrict); 
         }
+
     }
 
 

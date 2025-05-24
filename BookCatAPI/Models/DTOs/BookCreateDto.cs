@@ -10,6 +10,6 @@
         public decimal? Price { get; set; }
         public string? CheckDocument { get; set; }
         public int? YearPublishing { get; set; }
-        public DateTime? Removed { get; set; } = null; // Значення за замовчуванням - null
+        public DateTime? Removed { get; set; } = null;
     }
 }

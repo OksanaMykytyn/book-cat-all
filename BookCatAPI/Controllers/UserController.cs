@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCatAPI.Controllers
 {
@@ -24,23 +26,43 @@ namespace BookCatAPI.Controllers
         }
         
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegistrationDto userDto)
+        public async Task<IActionResult> Register([FromBody] UserRegistrationDto userDto)
         {
-            // Перевірка наявності користувача з таким же логіном
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             if (await _context.Users.AnyAsync(u => u.Userlogin == userDto.Userlogin))
             {
                 return BadRequest("Користувач з таким логіном вже існує.");
             }
-            // Створення нового користувача
+
+            if (string.IsNullOrWhiteSpace(userDto.Username) || userDto.Username.Length > 100 ||
+                !Regex.IsMatch(userDto.Username, @"^[А-Яа-яІіЇїЄєA-Za-z0-9\s]{1,100}$"))
+            {
+                return BadRequest("Недійсна назва школи/бібліотеки.");
+            }
+
+            if (!Regex.IsMatch(userDto.Userlogin, @"^[^\s@]+@[^\s@]+\.[^\s@]+$"))
+            {
+                return BadRequest("Невірний формат логіну (електронна пошта).");
+            }
+
+            if (!Regex.IsMatch(userDto.Userpassword, @"^[A-Za-z0-9]{8,20}$"))
+            {
+                return BadRequest("Пароль повинен містити 8–20 символів (англійські літери та цифри).");
+            }
+
+
             var user = new User
             {
                 Username = userDto.Username,
                 Userlogin = userDto.Userlogin,
-                Userpassword = userDto.Userpassword // Рекомендується хешувати пароль
+                Userpassword = userDto.Userpassword 
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            // Створення бібліотеки для нового користувача
             var library = new Library
             {
                 UserId = user.Id,
@@ -50,7 +72,6 @@ namespace BookCatAPI.Controllers
             _context.Libraries.Add(library);
             await _context.SaveChangesAsync();
 
-            // Зберегти дані користувача в сесії
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetInt32("User Id", user.Id);
 
@@ -60,26 +81,26 @@ namespace BookCatAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
-            // Знайти користувача за логіном
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Userlogin == userLoginDto.Userlogin);
             if (user == null)
             {
                 return BadRequest("Неправильний логін або пароль.");
             }
-            // Перевірка пароля
-            if (user.Userpassword != userLoginDto.Userpassword) // Порівняння паролів у відкритому вигляді
+            if (user.Userpassword != userLoginDto.Userpassword) 
             {
                 return BadRequest("Неправильний логін або пароль.");
             }
 
-            // Зберегти дані користувача в сесії
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetInt32("User Id", user.Id);
 
-            // Генерація JWT токена
             var token = GenerateJwtToken(user);
 
-            // Успішний вхід
             return Ok(new { token });
         }
 
@@ -96,9 +117,41 @@ namespace BookCatAPI.Controllers
                 issuer: "JwtIssuer",
                 audience: "JwtAudience",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddDays(30),
                 signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        [HttpGet("profile")]
+        [Authorize]
+        public async Task<IActionResult> GetUserProfile()
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("Користувач не авторизований.");
+            }
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+
+            if (user == null)
+            {
+                return NotFound("Користувач не знайдений.");
+            }
+
+            return Ok(new
+            {
+                username = user.Username
+            });
+        }
     }
+
+
 }

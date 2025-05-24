@@ -173,3 +173,8 @@ D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAP
 D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\obj\Debug\net8.0\BookCatAPI.sourcelink.json
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\System.IO.Packaging.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\BookCatAPI.staticwebassets.runtime.json
