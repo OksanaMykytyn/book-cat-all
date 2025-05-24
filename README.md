@@ -1,3 +1,5 @@
+Обов'язково покласти зірочки на ці два репозиторії
+
 book-cat - додаток на React (то кинулось якось погано, https://github.com/OksanaMykytyn/book-cat-react ось тут він є)
 BookCatApi - апі на c#
 
