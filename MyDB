@@ -80,3 +80,10 @@ CREATE TABLE admin_data (
     name VARCHAR(255),
     content VARCHAR(MAX)
 );
+
+-- Щоб міг зареєструватися) Без планів не реєструє
+INSERT INTO plans (max_books, price)
+VALUES 
+    (5000, 100.00),
+    (10000, 200.00),
+    (15000, 300.00);
