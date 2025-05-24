@@ -1,4 +1,4 @@
-book-cat - додаток на React
+book-cat - додаток на React (то кинулось якось погано, https://github.com/OksanaMykytyn/book-cat-react ось тут він є)
 BookCatApi - апі на c#
 
 У файлі BookCatAPI\appsettings.json є змінна, що відповідає за базу даних. Це DefaultConnection.

@@ -1,0 +1,82 @@
+-- Створення бази даних, якщо вона не існує
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'BookCatDB')
+BEGIN
+    CREATE DATABASE BookCatDB;
+END;
+GO
+
+-- Вибір бази
+USE BookCatDB;
+GO
+
+-- Таблиця користувачів
+CREATE TABLE users (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    userlogin VARCHAR(100) NOT NULL UNIQUE,
+    userpassword VARCHAR(255) NOT NULL,
+    userimage VARCHAR(255),
+    create_at DATETIME DEFAULT GETDATE()
+);
+
+-- Таблиця планів
+CREATE TABLE plans (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    max_books INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+-- Таблиця бібліотек
+CREATE TABLE libraries (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    start_inventory INT DEFAULT 0,
+    plan_id INT,
+    data_end_plan DATE,
+    status VARCHAR(10) DEFAULT 'active',
+    dark_theme BIT DEFAULT 0,
+    create_at DATETIME DEFAULT GETDATE(),
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (plan_id) REFERENCES plans(id)
+);
+
+-- Таблиця books
+CREATE TABLE books (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    inventory_number NVARCHAR(50),
+    name VARCHAR(255) NOT NULL,
+    author VARCHAR(255),
+    udk VARCHAR(100),
+    udk_form_document VARCHAR(100),
+    price DECIMAL(10,2),
+    check_document VARCHAR(255),  -- текстові дані, наприклад номер чека
+    year_publishing INT,
+    library_id INT,
+    removed DATE,  -- дата списання, NULL доки не списано
+    create_at DATETIME DEFAULT GETDATE(),
+
+    FOREIGN KEY (library_id) REFERENCES libraries(id)
+);
+
+
+-- Таблиця documents
+CREATE TABLE documents (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    library_id INT,
+    format VARCHAR(50),
+    date_start DATE,
+    date_end DATE,
+    url VARCHAR(500),
+    create_at DATETIME DEFAULT GETDATE(),
+    name VARCHAR(255),
+
+    FOREIGN KEY (library_id) REFERENCES libraries(id)
+);
+
+-- Таблиця admin_data
+CREATE TABLE admin_data (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255),
+    content VARCHAR(MAX)
+);
