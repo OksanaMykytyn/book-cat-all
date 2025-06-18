@@ -148,9 +148,181 @@ namespace BookCatAPI.Controllers
 
             return Ok(new
             {
-                username = user.Username
+                username = user.Username,
+                image = string.IsNullOrEmpty(user.Userimage)
+                    ? null
+                    : "/" + user.Userimage.Replace("\\", "/") 
             });
         }
+
+        [Authorize]
+        [HttpGet("in-waiting")]
+        public async Task<IActionResult> GetUsersInWaiting()
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var today = DateTime.Today;
+
+            var usersInWaiting = await _context.Users
+                .Include(u => u.Libraries)
+                .Where(u => u.Libraries.Any(l =>
+                    l.DataEndPlan == null || l.DataEndPlan.Value.Date == today))
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Username,
+                    u.Userlogin,
+                    Userimage = string.IsNullOrEmpty(u.Userimage)
+                        ? null
+                        : "/" + u.Userimage.Replace("\\", "/"),
+                    CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
+                    Libraries = u.Libraries.Select(l => new
+                    {
+                        l.Id,
+                        l.Status,
+                        l.PlanId,
+                        DataEndPlan = l.DataEndPlan.HasValue ? l.DataEndPlan.Value.ToString("yyyy-MM-dd") : null
+                    })
+                })
+                .ToListAsync();
+
+            return Ok(usersInWaiting);
+        }
+
+        [Authorize]
+        [HttpPost("check-payment")]
+        public async Task<IActionResult> CheckPayment([FromBody] int libraryId)
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var library = await _context.Libraries.FirstOrDefaultAsync(l => l.Id == libraryId);
+            if (library == null)
+            {
+                return NotFound("Бібліотека не знайдена.");
+            }
+
+            library.DataEndPlan = DateTime.Today.AddDays(30);
+            library.Status = "active"; // Можна змінити статус, якщо потрібно
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Платіж підтверджено", newEndDate = library.DataEndPlan.Value.ToString("yyyy-MM-dd") });
+        }
+
+        [Authorize]
+        [HttpGet("user-list")]
+        public async Task<IActionResult> GetActiveUsers()
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var users = await _context.Users
+                .Include(u => u.Libraries)
+                .Where(u => u.Libraries.Any(l => l.Status == "active"))
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Username,
+                    u.Userlogin,
+                    Userimage = string.IsNullOrEmpty(u.Userimage)
+                        ? null
+                        : "/" + u.Userimage.Replace("\\", "/"),
+                    CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
+                    Libraries = u.Libraries.Select(l => new
+                    {
+                        l.Id,
+                        l.Status,
+                        l.PlanId,
+                        DataEndPlan = l.DataEndPlan.HasValue ? l.DataEndPlan.Value.ToString("yyyy-MM-dd") : null
+                    })
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
+        [Authorize]
+        [HttpGet("banned-list")]
+        public async Task<IActionResult> GetBannedUsers()
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var today = DateTime.Today;
+
+            var users = await _context.Users
+                .Include(u => u.Libraries)
+                .Where(u => u.Libraries.Any(l =>
+                    l.DataEndPlan.HasValue && l.DataEndPlan.Value.Date < today))
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Username,
+                    u.Userlogin,
+                    Userimage = string.IsNullOrEmpty(u.Userimage)
+                        ? null
+                        : "/" + u.Userimage.Replace("\\", "/"),
+                    CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
+                    Libraries = u.Libraries.Select(l => new
+                    {
+                        l.Id,
+                        l.Status,
+                        l.PlanId,
+                        DataEndPlan = l.DataEndPlan.HasValue ? l.DataEndPlan.Value.ToString("yyyy-MM-dd") : null
+                    })
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
+        [Authorize]
+        [HttpPost("ban-user")]
+        public async Task<IActionResult> BanUser([FromBody] int libraryId)
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var library = await _context.Libraries.FirstOrDefaultAsync(l => l.Id == libraryId);
+            if (library == null)
+            {
+                return NotFound("Бібліотека не знайдена.");
+            }
+
+            library.DataEndPlan = null;
+            library.Status = "banned";
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Користувача заблоковано", status = library.Status });
+        }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            HttpContext.Session.Clear();
+
+            return Ok(new { message = "Вихід виконано успішно." });
+        }
+
+
+
     }
 
 

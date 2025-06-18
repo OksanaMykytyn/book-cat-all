@@ -23,6 +23,7 @@ namespace BookCatAPI.Models
         public Plan? Plan { get; set; }
         public ICollection<Book> Books { get; set; }
         public ICollection<Document> Documents { get; set; }
+
     }
 
 }

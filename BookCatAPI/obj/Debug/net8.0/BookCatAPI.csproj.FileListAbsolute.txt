@@ -178,3 +178,7 @@ D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAP
 D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
 D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\System.IO.Packaging.dll
 D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\BookCatAPI.staticwebassets.runtime.json
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Common.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\Microsoft.Extensions.Features.dll
+D:\Основне\Інститут\3 курс\2 семестр\BookCat\BookCatAPI\bin\Debug\net8.0\Newtonsoft.Json.dll

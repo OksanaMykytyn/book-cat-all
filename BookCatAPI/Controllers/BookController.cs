@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace BookCatAPI.Controllers
 {
@@ -104,6 +105,7 @@ namespace BookCatAPI.Controllers
         [FromQuery] string? year = null,
         [FromQuery] string? udc = null,
         [FromQuery] string? udcForm = null,
+        [FromQuery] string? inventoryNumber = null,
         [FromQuery] string? accompanyingDoc = null)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -134,6 +136,9 @@ namespace BookCatAPI.Controllers
                 query = query.Where(b => b.UdkFormDocument.Contains(udcForm));
             if (!string.IsNullOrEmpty(accompanyingDoc))
                 query = query.Where(b => b.CheckDocument.Contains(accompanyingDoc));
+            if (!string.IsNullOrEmpty(inventoryNumber))
+                query = query.Where(b => b.InventoryNumber.Contains(inventoryNumber));
+
 
             int totalBooks = await query.CountAsync();
             decimal totalPrice = await query
@@ -141,10 +146,11 @@ namespace BookCatAPI.Controllers
                 .SumAsync(b => b.Price.Value);
 
             var books = await query
-                .OrderByDescending(b => b.CreateAt)
+                .OrderByDescending(b => Convert.ToInt32(b.InventoryNumber))
                 .Skip((page - 1) * limit)
                 .Take(limit)
                 .ToListAsync();
+
 
             int totalPages = (int)Math.Ceiling(totalBooks / (double)limit);
 
@@ -157,15 +163,25 @@ namespace BookCatAPI.Controllers
             });
         }
 
-
-
         [Authorize]
         [HttpPut("remove/{inventoryNumber}")]
         public async Task<IActionResult> RemoveBook(string inventoryNumber)
         {
             try
             {
-                var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber);
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Користувач не авторизований.");
+                }
+
+                var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
+                if (library == null)
+                {
+                    return BadRequest("Бібліотека не знайдена для поточного користувача.");
+                }
+
+                var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber && b.LibraryId == library.Id);
 
                 if (book == null)
                 {
@@ -202,7 +218,20 @@ namespace BookCatAPI.Controllers
         {
             try
             {
-                var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber);
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Користувач не авторизований.");
+                }
+
+                var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
+                if (library == null)
+                {
+                    return BadRequest("Бібліотека не знайдена для поточного користувача.");
+                }
+
+                var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber && b.LibraryId == library.Id);
 
                 if (book == null)
                 {
@@ -242,6 +271,7 @@ namespace BookCatAPI.Controllers
             [FromQuery] string? udc = null,
             [FromQuery] string? udcForm = null,
             [FromQuery] string? accompanyingDoc = null,
+            [FromQuery] string? inventoryNumber = null,
             [FromQuery] DateTime? removed = null)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -272,6 +302,8 @@ namespace BookCatAPI.Controllers
                 query = query.Where(b => b.UdkFormDocument.Contains(udcForm));
             if (!string.IsNullOrEmpty(accompanyingDoc))
                 query = query.Where(b => b.CheckDocument.Contains(accompanyingDoc));
+            if (!string.IsNullOrEmpty(inventoryNumber))
+                query = query.Where(b => b.InventoryNumber.Contains(inventoryNumber));
             if (removed.HasValue)
             {
                 var date = removed.Value.Date;
@@ -284,10 +316,11 @@ namespace BookCatAPI.Controllers
                 .SumAsync(b => b.Price.Value);
 
             var books = await query
-                .OrderByDescending(b => b.CreateAt)
+                .OrderByDescending(b => Convert.ToInt32(b.InventoryNumber))
                 .Skip((page - 1) * limit)
                 .Take(limit)
                 .ToListAsync();
+
 
             int totalPages = (int)Math.Ceiling(totalBooks / (double)limit);
 
@@ -309,7 +342,19 @@ namespace BookCatAPI.Controllers
                 return Unauthorized("Невірне джерело запиту.");
             }
 
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("Користувач не авторизований.");
+            }
+
+            var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
+            if (library == null)
+            {
+                return BadRequest("Бібліотека не знайдена для поточного користувача.");
+            }
+
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber && b.LibraryId == library.Id);
 
             if (book == null)
                 return NotFound($"Книга з інвентарним номером {inventoryNumber} не знайдена.");
@@ -378,7 +423,19 @@ namespace BookCatAPI.Controllers
                     return Unauthorized("Невірне джерело запиту.");
                 }
 
-                var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber);
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Користувач не авторизований.");
+                }
+
+                var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
+                if (library == null)
+                {
+                    return BadRequest("Бібліотека не знайдена для поточного користувача.");
+                }
+
+                var book = await _context.Books.FirstOrDefaultAsync(b => b.InventoryNumber == inventoryNumber && b.LibraryId == library.Id);
 
                 if (book == null)
                 {

@@ -1,6 +1,30 @@
 {
   "Files": [
     {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\5\\images\\avatar.png",
+      "PackagePath": "staticwebassets\\5\\images\\avatar.png"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\1\\images\\2025-05-30\\929c00bc-fa50-48b5-b265-d5ec774904c2.jfif",
+      "PackagePath": "staticwebassets\\LibraryFiles\\1\\images\\2025-05-30\\929c00bc-fa50-48b5-b265-d5ec774904c2.jfif"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-06-14\\hllllllllll.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-06-14\\hllllllllll.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-06-14\\ррррррррррррр.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-06-14\\ррррррррррррр.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-06-17\\акт.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-06-17\\акт.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-06-17\\книга.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-06-17\\книга.docx"
+    },
+    {
       "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-23\\dddd.docx",
       "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-23\\dddd.docx"
     },
@@ -13,8 +37,104 @@
       "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-23\\tt.docx"
     },
     {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-24\\Gthtdshr.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-24\\Gthtdshr.docx"
+    },
+    {
       "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-24\\ntcn.docx",
       "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-24\\ntcn.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-26\\ntcn.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-26\\ntcn.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-28\\ndls.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-28\\ndls.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-29\\тест.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-29\\тест.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-05\\Тест.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-05\\Тест.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\Ntcnedfys.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\Ntcnedfys.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\nslsssss.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\nslsssss.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\ntcn.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\ntcn.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\Перевірка2.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\Перевірка2.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\вввввв.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\вввввв.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\дддддддддддддд.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\дддддддддддддд.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\перевірка.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\перевірка.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-06-14\\ррррррррррррррррррррррр.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-06-14\\ррррррррррррррррррррррр.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\929c00bc-fa50-48b5-b265-d5ec774904c2.jfif",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\929c00bc-fa50-48b5-b265-d5ec774904c2.jfif"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\Desktop - 13 (3).jpg",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\Desktop - 13 (3).jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\Desktop - 19.jpg",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\Desktop - 19.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\Frame 5.jpg",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\Frame 5.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\Frame 9 (2).jpg",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\Frame 9 (2).jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\avatar.png",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\avatar.png"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\2025-05-29\\Брюс Ли.jfif",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\2025-05-29\\Брюс Ли.jfif"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\5.png",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\5.png"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\images\\avatar.png",
+      "PackagePath": "staticwebassets\\LibraryFiles\\5\\images\\avatar.png"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\Templates\\InventoryBook.docx",
+      "PackagePath": "staticwebassets\\Templates\\InventoryBook.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\Templates\\writeOffAct.docx",
+      "PackagePath": "staticwebassets\\Templates\\writeOffAct.docx"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BookCatAPI.Microsoft.AspNetCore.StaticWebAssets.props",

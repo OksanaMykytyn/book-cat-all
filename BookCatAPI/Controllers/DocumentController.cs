@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using BookCatAPI.Models;
 using System.Security.Claims;
 using BookCatAPI.Models.DTOs;
-using Document = DocumentFormat.OpenXml.Wordprocessing.Document;
+using Document = DocumentFormat.OpenXml.Wordprocessing.Document; 
 
 namespace BookCatAPI.Controllers
 {
@@ -19,7 +19,6 @@ namespace BookCatAPI.Controllers
     {
         private readonly BookCatDbContext _context;
         private readonly ILogger<DocumentController> _logger;
-
         private readonly IWebHostEnvironment _env;
 
         public DocumentController(BookCatDbContext context, ILogger<DocumentController> logger, IWebHostEnvironment env)
@@ -29,7 +28,6 @@ namespace BookCatAPI.Controllers
             _env = env;
         }
 
-
         [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateDocument([FromBody] CreateDocumentDto dto)
@@ -38,7 +36,6 @@ namespace BookCatAPI.Controllers
             {
                 return StatusCode(500, "WebRootPath не налаштований.");
             }
-
 
             if (string.IsNullOrWhiteSpace(dto.Name))
                 return BadRequest("Назва документу не може бути порожньою.");
@@ -63,72 +60,25 @@ namespace BookCatAPI.Controllers
             string fileUrl = $"/{relativePath.Replace("\\", "/")}/{fileName}";
 
             List<Book> books;
+
             if (dto.Format == "writeOffAct" && dto.DateFrom != null && dto.DateTo != null)
             {
                 DateTime from = dto.DateFrom.Value.Date;
                 DateTime to = dto.DateTo.Value.Date.AddDays(1).AddTicks(-1);
                 books = await _context.Books
                     .Where(b => b.Removed != null && b.Removed >= from && b.Removed <= to && b.LibraryId == library.Id)
+                    .OrderBy(b => b.InventoryNumber) 
                     .ToListAsync();
+
+                await GenerateWriteOffAct(fullFilePath, books);
             }
-            else
+            else if (dto.Format == "inventoryBook")
             {
                 books = await _context.Books
                     .Where(b => b.Removed == null && b.LibraryId == library.Id)
                     .ToListAsync();
-            }
 
-            using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
-            using (var wordDoc = WordprocessingDocument.Create(fileStream, WordprocessingDocumentType.Document, true))
-            {
-                var mainPart = wordDoc.AddMainDocumentPart();
-                mainPart.Document = new Document();
-                var body = mainPart.Document.AppendChild(new Body());
-
-                var heading = new Paragraph(new Run(new Text(dto.Name)))
-                {
-                    ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center })
-                };
-                body.AppendChild(heading);
-                body.AppendChild(new Paragraph(new Run(new Text(""))));
-
-                var table = new Table();
-
-                var tblProps = new TableProperties(
-                    new TableBorders(
-                        new TopBorder { Val = BorderValues.Single, Size = 4 },
-                        new BottomBorder { Val = BorderValues.Single, Size = 4 },
-                        new LeftBorder { Val = BorderValues.Single, Size = 4 },
-                        new RightBorder { Val = BorderValues.Single, Size = 4 },
-                        new InsideHorizontalBorder { Val = BorderValues.Single, Size = 4 },
-                        new InsideVerticalBorder { Val = BorderValues.Single, Size = 4 }
-                    )
-                );
-                table.AppendChild(tblProps);
-
-                var headerRow = new TableRow();
-                headerRow.Append(
-                    CreateTableCell("Інвентарний номер"),
-                    CreateTableCell("Назва"),
-                    CreateTableCell("Автор"),
-                    CreateTableCell("Рік видання")
-                );
-                table.AppendChild(headerRow);
-
-                foreach (var book in books)
-                {
-                    var row = new TableRow();
-                    row.Append(
-                        CreateTableCell(book.InventoryNumber ?? ""),
-                        CreateTableCell(book.Name ?? ""),
-                        CreateTableCell(book.Author ?? ""),
-                        CreateTableCell(book.YearPublishing?.ToString() ?? "")
-                    );
-                    table.AppendChild(row);
-                }
-
-                body.AppendChild(table);
-                mainPart.Document.Save();
+                await GenerateInventoryBook(fullFilePath, books, dto.Name);
             }
 
             var document = new Models.Document
@@ -149,21 +99,188 @@ namespace BookCatAPI.Controllers
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
 
-        private static TableCell CreateTableCell(string text, bool bold = false)
+        private async Task GenerateWriteOffAct(string outputPath, List<Book> books)
         {
-            var runProperties = new RunProperties();
-            if (bold)
+            string templatePath = Path.Combine(_env.WebRootPath, "Templates", "writeOffAct.docx");
+
+            if (!System.IO.File.Exists(templatePath))
             {
-                runProperties.Append(new Bold());
+                _logger.LogError($"Шаблон акту списання не знайдено за шляхом: {templatePath}");
+                throw new FileNotFoundException("Шаблон акту списання не знайдено.");
             }
 
-            var run = new Run();
-            run.Append(runProperties);
-            run.Append(new Text(text));
+            System.IO.File.Copy(templatePath, outputPath, true);
 
-            var paragraph = new Paragraph(run);
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputPath, true))
+            {
+                var body = wordDoc.MainDocumentPart?.Document?.Body;
+                if (body == null)
+                {
+                    _logger.LogError("Не вдалося отримати тіло документа.");
+                    return;
+                }
+
+                Table targetTable = body.Elements<Table>().FirstOrDefault();
+                if (targetTable == null)
+                {
+                    _logger.LogWarning("Таблиця в шаблоні акту списання не знайдена.");
+                    return;
+                }
+
+                books = books.OrderBy(b =>
+                {
+                    if (int.TryParse(b.InventoryNumber, out int invNumber))
+                        return invNumber;
+                    return int.MaxValue; 
+                }).ToList();
+
+                int rowCount = 0;
+                decimal totalPrice = 0;
+
+                foreach (var book in books)
+                {
+                    rowCount++;
+                    decimal price = book.Price ?? 0;
+                    totalPrice += price;
+
+                    var newRow = new TableRow(); 
+
+                    string[] priceParts = price.ToString("F2").Split(',');
+                    if (priceParts.Length < 2)
+                        priceParts = price.ToString("F2").Split('.');
+
+                    string whole = priceParts[0];
+                    string frac = priceParts.Length > 1 ? priceParts[1] : "00";
+
+                    newRow.Append(
+                        CreateTableCell(rowCount.ToString(), align: JustificationValues.Right),                    // 1 колонка
+                        CreateTableCell(book.InventoryNumber ?? "", align: JustificationValues.Right),             // 2 колонка
+                        CreateTableCell($"{book.Author ?? ""} {book.Name ?? ""}", align: JustificationValues.Left), // 3 колонка
+                        CreateTableCell("1", align: JustificationValues.Center),                                   // 4 колонка
+                        CreateTableCell($"{whole},{frac}", align: JustificationValues.Right),                      // 5 колонка
+                        CreateTableCell(whole, align: JustificationValues.Right),                                  // 6 колонка
+                        CreateTableCell(frac, align: JustificationValues.Right),                                   // 7 колонка
+                        CreateTableCell(book.YearPublishing?.ToString() ?? "", align: JustificationValues.Center)  // 8 колонка
+                    );
+
+
+                    targetTable.AppendChild(newRow);
+                }
+
+                var totalParagraph = body.Elements<Paragraph>()
+                    .FirstOrDefault(p => p.InnerText.Contains("Всього на суму "));
+
+                if (totalParagraph != null)
+                {
+                    var run = totalParagraph.Elements<Run>().LastOrDefault();
+                    if (run != null)
+                    {
+                        var textElement = run.Elements<Text>().LastOrDefault();
+                        if (textElement != null)
+                        {
+                            textElement.Text = $"\nВсього на суму: \t{totalPrice.ToString("F2")} грн.";
+                        }
+                    }
+                }
+
+                wordDoc.MainDocumentPart.Document.Save();
+            }
+        }
+
+
+
+        private static TableCell CreateTableCell(string text, JustificationValues align, bool bold = false)
+        {
+            var runProps = new RunProperties(
+                new RunFonts
+                {
+                    Ascii = "Times New Roman",
+                    HighAnsi = "Times New Roman",
+                    EastAsia = "Times New Roman",
+                    ComplexScript = "Times New Roman"
+                },
+                new FontSize() { Val = "20" }
+            );
+
+            if (bold)
+                runProps.Append(new Bold());
+
+            var run = new Run();
+            run.Append(runProps);
+            run.Append(new Text(text) { Space = SpaceProcessingModeValues.Preserve });
+
+            var paragraph = new Paragraph(
+                new ParagraphProperties(new Justification() { Val = align }),
+                run
+            );
 
             return new TableCell(paragraph);
+        }
+
+        private async Task GenerateInventoryBook(string outputPath, List<Book> books, string documentTitle)
+        {
+            string templatePath = Path.Combine(_env.WebRootPath, "Templates", "InventoryBook.docx");
+
+            if (!System.IO.File.Exists(templatePath))
+            {
+                _logger.LogError($"Шаблон інвентарної книги не знайдено за шляхом: {templatePath}");
+                throw new FileNotFoundException("Шаблон інвентарної книги не знайдено.");
+            }
+
+            System.IO.File.Copy(templatePath, outputPath, true);
+
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputPath, true))
+            {
+                var body = wordDoc.MainDocumentPart?.Document?.Body;
+                if (body == null)
+                {
+                    _logger.LogError("Не вдалося отримати тіло документа.");
+                    return;
+                }
+
+                Table targetTable = body.Elements<Table>().FirstOrDefault();
+                if (targetTable == null)
+                {
+                    _logger.LogWarning("Таблиця в шаблоні інвентарної книги не знайдена.");
+                    return;
+                }
+
+                books = books.OrderBy(b =>
+                {
+                    if (int.TryParse(b.InventoryNumber, out int invNum))
+                        return invNum;
+                    return int.MaxValue;
+                }).ToList();
+
+                foreach (var book in books)
+                {
+                    decimal price = book.Price ?? 0;
+
+                    string[] priceParts = price.ToString("F2").Split(',');
+                    if (priceParts.Length < 2)
+                        priceParts = price.ToString("F2").Split('.');
+
+                    string whole = priceParts[0];
+                    string frac = priceParts.Length > 1 ? priceParts[1] : "00";
+
+                    var newRow = new TableRow();
+                    newRow.Append(
+                        CreateTableCell(book.InventoryNumber ?? "", JustificationValues.Left),           
+                        CreateTableCell(book.Author ?? "", JustificationValues.Left),                    
+                        CreateTableCell(book.Name ?? "", JustificationValues.Left),                      
+                        CreateTableCell("1", JustificationValues.Center),                           
+                        CreateTableCell(whole, JustificationValues.Right),                               
+                        CreateTableCell(frac, JustificationValues.Right),                                
+                        CreateTableCell(book.YearPublishing?.ToString() ?? "", JustificationValues.Center), 
+                        CreateTableCell(book.CheckDocument ?? "", JustificationValues.Left),             
+                        CreateTableCell(book.Udk ?? "", JustificationValues.Left),                      
+                        CreateTableCell(book.UdkFormDocument ?? "", JustificationValues.Left)           
+                    );
+                    targetTable.AppendChild(newRow);
+                }
+
+                wordDoc.MainDocumentPart.Document.Save();
+            }
         }
 
         [Authorize]
@@ -191,6 +308,5 @@ namespace BookCatAPI.Controllers
 
             return Ok(documents);
         }
-
     }
 }

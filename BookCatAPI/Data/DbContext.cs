@@ -17,6 +17,7 @@ namespace BookCatAPI.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<AdminData> AdminData { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -39,7 +40,8 @@ namespace BookCatAPI.Data
                 .HasMany(l => l.Documents)
                 .WithOne(d => d.Library)
                 .HasForeignKey(d => d.LibraryId)
-                .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }
