@@ -20,6 +20,11 @@ namespace BookCatAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlans()
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var plans = await _context.Plans.OrderBy(p => p.Id).ToListAsync();
             return Ok(plans);
         }
@@ -34,6 +39,11 @@ namespace BookCatAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePlan(int id, [FromBody] UpdatePlanDto updated)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var plan = await _context.Plans.FindAsync(id);
             if (plan is null) return NotFound();
 

@@ -43,11 +43,25 @@ namespace BookCatAPI.Controllers
                     return Unauthorized("Користувач не авторизований.");
                 }
 
-                var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
+                var library = await _context.Libraries
+                    .Include(l => l.Plan)
+                    .Include(l => l.Books)
+                    .FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
+
                 if (library == null)
                 {
                     _logger.LogError($"Бібліотека не знайдена для користувача з ID: {userId} / логіном: {userLogin}");
                     return BadRequest("Бібліотека не знайдена.");
+                }
+
+                if (library.Plan != null)
+                {
+                    int currentBookCount = await _context.Books.CountAsync(b => b.LibraryId == library.Id && b.Removed == null);
+                    if (currentBookCount >= library.Plan.MaxBooks)
+                    {
+                        _logger.LogWarning($"Ліміт книг вичерпано для бібліотеки ID: {library.Id}");
+                        return BadRequest("Ваш ліміт вичерпано! Змініть тарифний план, щоб додати книгу.");
+                    }
                 }
 
                 if (string.IsNullOrWhiteSpace(bookDto.Name))
@@ -77,6 +91,17 @@ namespace BookCatAPI.Controllers
                     LibraryId = library.Id
                 };
 
+                bool inventoryExists = await _context.Books
+                    .AnyAsync(b => b.LibraryId == library.Id &&
+                                   b.InventoryNumber == inventoryNumber &&
+                                   b.Removed == null);
+
+                if (inventoryExists)
+                {
+                    return BadRequest($"Книга з інвентарним номером {inventoryNumber} вже існує в цій бібліотеці.");
+                }
+
+
                 _context.Books.Add(book);
                 await _context.SaveChangesAsync();
 
@@ -97,6 +122,7 @@ namespace BookCatAPI.Controllers
             }
         }
 
+
         [Authorize]
         [HttpGet("list")]
         public async Task<IActionResult> GetBooks([FromQuery] int page = 1, [FromQuery] int limit = 20,
@@ -108,6 +134,11 @@ namespace BookCatAPI.Controllers
         [FromQuery] string? inventoryNumber = null,
         [FromQuery] string? accompanyingDoc = null)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -169,6 +200,11 @@ namespace BookCatAPI.Controllers
         {
             try
             {
+                if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+                {
+                    return Unauthorized("Невірне джерело запиту.");
+                }
+
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
@@ -218,6 +254,10 @@ namespace BookCatAPI.Controllers
         {
             try
             {
+                if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+                {
+                    return Unauthorized("Невірне джерело запиту.");
+                }
 
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
@@ -274,6 +314,11 @@ namespace BookCatAPI.Controllers
             [FromQuery] string? inventoryNumber = null,
             [FromQuery] DateTime? removed = null)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {

@@ -32,6 +32,11 @@ namespace BookCatAPI.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateDocument([FromBody] CreateDocumentDto dto)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             if (string.IsNullOrEmpty(_env.WebRootPath))
             {
                 return StatusCode(500, "WebRootPath не налаштований.");
@@ -153,14 +158,14 @@ namespace BookCatAPI.Controllers
                     string frac = priceParts.Length > 1 ? priceParts[1] : "00";
 
                     newRow.Append(
-                        CreateTableCell(rowCount.ToString(), align: JustificationValues.Right),                    // 1 колонка
-                        CreateTableCell(book.InventoryNumber ?? "", align: JustificationValues.Right),             // 2 колонка
-                        CreateTableCell($"{book.Author ?? ""} {book.Name ?? ""}", align: JustificationValues.Left), // 3 колонка
-                        CreateTableCell("1", align: JustificationValues.Center),                                   // 4 колонка
-                        CreateTableCell($"{whole},{frac}", align: JustificationValues.Right),                      // 5 колонка
-                        CreateTableCell(whole, align: JustificationValues.Right),                                  // 6 колонка
-                        CreateTableCell(frac, align: JustificationValues.Right),                                   // 7 колонка
-                        CreateTableCell(book.YearPublishing?.ToString() ?? "", align: JustificationValues.Center)  // 8 колонка
+                        CreateTableCell(rowCount.ToString(), align: JustificationValues.Right),                    
+                        CreateTableCell(book.InventoryNumber ?? "", align: JustificationValues.Right),            
+                        CreateTableCell($"{book.Author ?? ""} {book.Name ?? ""}", align: JustificationValues.Left), 
+                        CreateTableCell("1", align: JustificationValues.Center),                                   
+                        CreateTableCell($"{whole},{frac}", align: JustificationValues.Right),                      
+                        CreateTableCell(whole, align: JustificationValues.Right),                                  
+                        CreateTableCell(frac, align: JustificationValues.Right),                                   
+                        CreateTableCell(book.YearPublishing?.ToString() ?? "", align: JustificationValues.Center)  
                     );
 
 
@@ -287,6 +292,11 @@ namespace BookCatAPI.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllDocuments()
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("Користувач не авторизований.");

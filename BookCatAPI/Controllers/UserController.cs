@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace BookCatAPI.Controllers
 {
@@ -19,6 +21,8 @@ namespace BookCatAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly BookCatDbContext _context;
+        private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
+
 
         public UserController(BookCatDbContext context)
         {
@@ -59,7 +63,8 @@ namespace BookCatAPI.Controllers
             {
                 Username = userDto.Username,
                 Userlogin = userDto.Userlogin,
-                Userpassword = userDto.Userpassword 
+                Userpassword = _passwordHasher.HashPassword(null, userDto.Userpassword)
+
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -91,9 +96,18 @@ namespace BookCatAPI.Controllers
             {
                 return BadRequest("Неправильний логін або пароль.");
             }
-            if (user.Userpassword != userLoginDto.Userpassword) 
+            if (user.Userpassword == userLoginDto.Userpassword)
             {
-                return BadRequest("Неправильний логін або пароль.");
+                user.Userpassword = _passwordHasher.HashPassword(user, userLoginDto.Userpassword);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var result = _passwordHasher.VerifyHashedPassword(user, user.Userpassword, userLoginDto.Userpassword);
+                if (result == PasswordVerificationResult.Failed)
+                {
+                    return BadRequest("Неправильний логін або пароль.");
+                }
             }
 
             HttpContext.Session.SetString("Username", user.Username);
@@ -321,9 +335,38 @@ namespace BookCatAPI.Controllers
             return Ok(new { message = "Вихід виконано успішно." });
         }
 
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordDto dto)
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            if (!Regex.IsMatch(dto.Email, @"^[^\s@]+@[^\s@]+\.[^\s@]+$"))
+            {
+                return BadRequest("Невірний формат електронної пошти.");
+            }
+
+            if (!Regex.IsMatch(dto.NewPassword, @"^[A-Za-z0-9]{8,20}$"))
+            {
+                return BadRequest("Пароль повинен містити 8–20 символів (англійські літери та цифри).");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Userlogin == dto.Email);
+            if (user == null)
+            {
+                return NotFound("Користувача з такою поштою не знайдено.");
+            }
+
+            user.Userpassword = _passwordHasher.HashPassword(user, dto.NewPassword);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Пароль успішно змінено." });
+        }
 
 
     }
-
 
 }

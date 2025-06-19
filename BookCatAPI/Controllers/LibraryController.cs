@@ -28,6 +28,11 @@ namespace BookCatAPI.Controllers
         [HttpGet("status")]
         public async Task<IActionResult> GetLibraryStatus()
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
 
@@ -48,6 +53,11 @@ namespace BookCatAPI.Controllers
         [HttpGet("inventory")]
         public async Task<IActionResult> GetInventoryNumber()
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("Користувач не авторизований.");
@@ -63,6 +73,11 @@ namespace BookCatAPI.Controllers
         [HttpPut("inventory")]
         public async Task<IActionResult> UpdateInventoryNumber([FromBody] InventoryUpdateDto dto)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             if (dto.Inventory < 0)
                 return BadRequest("Інвентарний номер не може бути менше 0.");
 
@@ -84,6 +99,11 @@ namespace BookCatAPI.Controllers
         [HttpGet("setup")]
         public async Task<IActionResult> GetLibrarySetup()
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("Користувач не авторизований.");
@@ -119,6 +139,11 @@ namespace BookCatAPI.Controllers
         [HttpPut("setup/text")]
         public async Task<IActionResult> UpdateLibraryText([FromBody] LibraryUpdateDto dto)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("Користувач не авторизований.");
@@ -132,19 +157,28 @@ namespace BookCatAPI.Controllers
 
             library.User.Username = dto.Username;
             library.User.Userlogin = dto.Email;
-            library.PlanId = dto.PlanId;
+
+            if (library.PlanId != dto.PlanId)
+            {
+                library.PlanId = dto.PlanId;
+                library.Status = "pending";
+                library.DataEndPlan = null;
+            }
 
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Текстові дані оновлено." });
         }
 
-
-
         [Authorize]
         [HttpPut("setup/image")]
         public async Task<IActionResult> UpdateLibraryImage([FromForm] IFormFile image)
         {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("Користувач не авторизований.");
