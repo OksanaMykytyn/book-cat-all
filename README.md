@@ -8,3 +8,5 @@ BookCatApi - апі на c#
 У файлі BookCatAPI\Program.cs є змінна, яка відповідає за приймання запитів з React.
 
 У React тепер є глобальна змінна для запитів. Вона знаходиться у src\axiosInstance.js. Її назва - API_BASE_URL
+
+АЛЕ!!! Поміняти localhost для зображень в InWaitingUser, UserCard, "UserChat", Header, HeaderAdmin, "MessageItem", AllDocumentPage
