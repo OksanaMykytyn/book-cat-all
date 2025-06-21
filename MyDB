@@ -87,3 +87,6 @@ VALUES
     (5000, 100.00),
     (10000, 200.00),
     (15000, 300.00);
+
+INSERT INTO users (username, userlogin, userpassword, userimage)
+VALUES ('admin', 'admin@gmail.com', 'admin1234',  NULL );
