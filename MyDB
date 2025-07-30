@@ -81,6 +81,18 @@ CREATE TABLE admin_data (
     content VARCHAR(MAX)
 );
 
+-- Таблиця для статей
+CREATE TABLE articles (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT GETDATE(),
+    updated_at DATETIME DEFAULT GETDATE(),
+    cover_image VARCHAR(255),
+    category VARCHAR(100),
+    slug VARCHAR(255) UNIQUE,
+    content NVARCHAR(MAX)  
+);
+
 -- Щоб міг зареєструватися) Без планів не реєструє
 INSERT INTO plans (max_books, price)
 VALUES 
