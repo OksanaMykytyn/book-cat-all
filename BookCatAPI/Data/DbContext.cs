@@ -16,7 +16,7 @@ namespace BookCatAPI.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<AdminData> AdminData { get; set; }
-
+        public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

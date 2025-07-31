@@ -157,6 +157,22 @@
       "PackagePath": "staticwebassets\\Templates\\writeOffAct.docx"
     },
     {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\images\\articles\\197704fc-94b7-468a-82d6-1460c9681813.jpg",
+      "PackagePath": "staticwebassets\\images\\articles\\197704fc-94b7-468a-82d6-1460c9681813.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\images\\articles\\3ab0e23d-c084-461a-a3b7-bf1ec63e1162.jpg",
+      "PackagePath": "staticwebassets\\images\\articles\\3ab0e23d-c084-461a-a3b7-bf1ec63e1162.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\uploads\\articles\\6a4aa738-9921-4340-838f-c36461f1ee44.jpg",
+      "PackagePath": "staticwebassets\\uploads\\articles\\6a4aa738-9921-4340-838f-c36461f1ee44.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\uploads\\articles\\b0aa85be-36c4-4ead-8f74-06f7928e39ac.jpg",
+      "PackagePath": "staticwebassets\\uploads\\articles\\b0aa85be-36c4-4ead-8f74-06f7928e39ac.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BookCatAPI.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

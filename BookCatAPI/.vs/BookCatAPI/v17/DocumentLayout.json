@@ -3,22 +3,6 @@
   "WorkspaceRootPath": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\controllers\\plancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:controllers\\plancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\controllers\\documentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:controllers\\documentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,20 +11,20 @@
       "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:models\\dtos\\userchangepassworddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\models\\article.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:models\\article.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\controllers\\articlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:controllers\\articlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\controllers\\librarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:controllers\\librarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\models\\library.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:models\\library.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|d:\\\u043E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0456\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\bookcat\\bookcatapi\\models\\plan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46C86FDE-1F76-44A6-B9F9-563FC96F02CE}|BookCatAPI.csproj|solutionrelative:models\\plan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,11 +34,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
+              "Title": "ArticleController.cs",
+              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\ArticleController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ArticleController.cs",
+              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\ArticleController.cs",
+              "RelativeToolTip": "Controllers\\ArticleController.cs",
+              "ViewState": "AQIAAMkAAAAAAAAAAAAAAM8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T15:53:51.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DbContext.cs",
+              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Data\\DbContext.cs",
+              "RelativeDocumentMoniker": "Data\\DbContext.cs",
+              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Data\\DbContext.cs",
+              "RelativeToolTip": "Data\\DbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T15:53:18.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Article.cs",
+              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Article.cs",
+              "RelativeDocumentMoniker": "Models\\Article.cs",
+              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Article.cs",
+              "RelativeToolTip": "Models\\Article.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T15:51:29.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "UserChangePasswordDto.cs",
               "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\DTOs\\UserChangePasswordDto.cs",
               "RelativeDocumentMoniker": "Models\\DTOs\\UserChangePasswordDto.cs",
@@ -67,7 +90,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "DocumentController.cs",
               "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\DocumentController.cs",
               "RelativeDocumentMoniker": "Controllers\\DocumentController.cs",
@@ -80,7 +103,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "LibraryController.cs",
               "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\LibraryController.cs",
               "RelativeDocumentMoniker": "Controllers\\LibraryController.cs",
@@ -88,99 +111,7 @@
               "RelativeToolTip": "Controllers\\LibraryController.cs",
               "ViewState": "AQIAAJ8AAAAAAAAAAAAAALMAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:22:40.255Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Controllers\\UserController.cs",
-              "ViewState": "AQIAAA8BAAAAAAAAAAAAwF0BAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:22:11.565Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:22:07.453Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Book.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Book.cs",
-              "RelativeDocumentMoniker": "Models\\Book.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Book.cs",
-              "RelativeToolTip": "Models\\Book.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAwCEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:08:40.064Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Library.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Library.cs",
-              "RelativeDocumentMoniker": "Models\\Library.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Library.cs",
-              "RelativeToolTip": "Models\\Library.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:08:17.402Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Plan.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Plan.cs",
-              "RelativeDocumentMoniker": "Models\\Plan.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Models\\Plan.cs",
-              "RelativeToolTip": "Models\\Plan.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:07:58.64Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PlanController.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\PlanController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PlanController.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\PlanController.cs",
-              "RelativeToolTip": "Controllers\\PlanController.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAIwC8AAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:07:50.241Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BookController.cs",
-              "DocumentMoniker": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\BookController.cs",
-              "RelativeDocumentMoniker": "Controllers\\BookController.cs",
-              "ToolTip": "D:\\\u041E\u0441\u043D\u043E\u0432\u043D\u0435\\\u0406\u043D\u0441\u0442\u0438\u0442\u0443\u0442\\3 \u043A\u0443\u0440\u0441\\2 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\BookCat\\BookCatAPI\\Controllers\\BookController.cs",
-              "RelativeToolTip": "Controllers\\BookController.cs",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAAwF0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:00:27.86Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-18T17:22:40.255Z"
             }
           ]
         }
