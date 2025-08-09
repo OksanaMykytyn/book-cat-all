@@ -101,4 +101,4 @@ VALUES
     (15000, 300.00);
 
 INSERT INTO users (username, userlogin, userpassword, userimage)
-VALUES ('admin', 'admin@gmail.com', 'admin1234',  NULL );
+VALUES ('admin', 'bookcatalog.library@gmail.com', 'je93nd03jn3mx',  NULL );
