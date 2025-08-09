@@ -117,7 +117,9 @@ namespace BookCatAPI.Controllers
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { token });
+            var userRole = (user.Userlogin.ToLower() == "bookcatalog.library@gmail.com") ? "admin" : "library";
+
+            return Ok(new { token, userRole });
         }
 
         private string GenerateJwtToken(User user)
@@ -127,6 +129,10 @@ namespace BookCatAPI.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Userlogin)
             };
+
+            var userRole = (user.Userlogin.ToLower() == "bookcatalog.library@gmail.com") ? "admin" : "library";
+            claims.Add(new Claim(ClaimTypes.Role, userRole));
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
@@ -135,6 +141,7 @@ namespace BookCatAPI.Controllers
                 claims: claims,
                 expires: DateTime.Now.AddDays(60),
                 signingCredentials: creds);
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
@@ -292,8 +299,8 @@ namespace BookCatAPI.Controllers
             var users = await _context.Users
                 .Include(u => u.Libraries)
                 .Where(u => u.Libraries.Any(l =>
-                    (l.DataEndPlan.HasValue && today.Subtract(l.DataEndPlan.Value.Date).TotalDays >= 60) ||
-                    (l.DataEndPlan == null && today.Subtract(u.CreateAt.Date).TotalDays >= 30)
+                    (l.DataEndPlan.HasValue && l.DataEndPlan.Value.Date.AddDays(60) <= today) ||
+                    (l.DataEndPlan == null && u.CreateAt.Date.AddDays(30) <= today)
                 ))
                 .Select(u => new
                 {
@@ -352,7 +359,7 @@ namespace BookCatAPI.Controllers
             var users = await _context.Users
                 .Include(u => u.Libraries)
                 .Where(u => u.Libraries.Any(l =>
-                    l.DataEndPlan.HasValue && today.Subtract(l.DataEndPlan.Value.Date).TotalDays < 30 && today.Subtract(l.DataEndPlan.Value.Date).TotalDays > 0))
+                    l.DataEndPlan.HasValue && l.DataEndPlan.Value.Date <= today.AddDays(30) && l.DataEndPlan.Value.Date > today))
                 .Select(u => new
                 {
                     u.Id,

@@ -33,6 +33,13 @@ namespace BookCatAPI.Controllers
                 return Unauthorized("Невірне джерело запиту.");
             }
 
+            var userLogin = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            if (userLogin != null && userLogin.ToLower() == "bookcatalog.library@gmail.com")
+            {
+                return Ok(new { status = "admin" });
+            }
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var library = await _context.Libraries.FirstOrDefaultAsync(l => l.UserId.ToString() == userId);
 
