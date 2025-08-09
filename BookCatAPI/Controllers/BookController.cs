@@ -505,7 +505,5 @@ namespace BookCatAPI.Controllers
                 return StatusCode(500, "Сталася внутрішня помилка сервера.");
             }
         }
-
-
     }
 }

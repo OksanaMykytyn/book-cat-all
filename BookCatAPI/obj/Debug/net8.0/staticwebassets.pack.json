@@ -25,6 +25,18 @@
       "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-06-17\\книга.docx"
     },
     {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-08-08\\дві тисячі книг.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-08-08\\дві тисячі книг.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-08-08\\списання.docx",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\2025-08-08\\списання.docx"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\images\\2025-08-08\\1f810696567a3a772033d5533feb375a.jpg",
+      "PackagePath": "staticwebassets\\LibraryFiles\\4\\images\\2025-08-08\\1f810696567a3a772033d5533feb375a.jpg"
+    },
+    {
       "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\5\\2025-05-23\\dddd.docx",
       "PackagePath": "staticwebassets\\LibraryFiles\\5\\2025-05-23\\dddd.docx"
     },
@@ -163,6 +175,18 @@
     {
       "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\images\\articles\\3ab0e23d-c084-461a-a3b7-bf1ec63e1162.jpg",
       "PackagePath": "staticwebassets\\images\\articles\\3ab0e23d-c084-461a-a3b7-bf1ec63e1162.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\images\\articles\\bc4c2652-c813-4146-b8dc-f13b3b8aee13.jpg",
+      "PackagePath": "staticwebassets\\images\\articles\\bc4c2652-c813-4146-b8dc-f13b3b8aee13.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\images\\articles\\c04f6501-f58b-4e8f-a12e-4b75d1218526.jpg",
+      "PackagePath": "staticwebassets\\images\\articles\\c04f6501-f58b-4e8f-a12e-4b75d1218526.jpg"
+    },
+    {
+      "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\images\\articles\\e9f1924f-5ec3-45f7-a53a-fc54660464ae.jpg",
+      "PackagePath": "staticwebassets\\images\\articles\\e9f1924f-5ec3-45f7-a53a-fc54660464ae.jpg"
     },
     {
       "Id": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\uploads\\articles\\6a4aa738-9921-4340-838f-c36461f1ee44.jpg",

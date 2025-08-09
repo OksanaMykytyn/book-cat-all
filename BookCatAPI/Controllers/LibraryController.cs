@@ -162,7 +162,7 @@ namespace BookCatAPI.Controllers
             {
                 library.PlanId = dto.PlanId;
                 library.Status = "pending";
-                library.DataEndPlan = null;
+                library.DataEndPlan = DateTime.Today;
             }
 
             await _context.SaveChangesAsync();

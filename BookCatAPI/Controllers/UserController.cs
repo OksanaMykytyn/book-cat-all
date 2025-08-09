@@ -22,11 +22,13 @@ namespace BookCatAPI.Controllers
     {
         private readonly BookCatDbContext _context;
         private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
+        private readonly IConfiguration _configuration;
 
 
-        public UserController(BookCatDbContext context)
+        public UserController(BookCatDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
         
         [HttpPost("register")]
@@ -77,8 +79,8 @@ namespace BookCatAPI.Controllers
             _context.Libraries.Add(library);
             await _context.SaveChangesAsync();
 
-            HttpContext.Session.SetString("Username", user.Username);
-            HttpContext.Session.SetInt32("User Id", user.Id);
+            //HttpContext.Session.SetString("Username", user.Username);
+            //HttpContext.Session.SetInt32("User Id", user.Id);
 
             return Ok(new { user.Id, user.Username, user.Userlogin });
         }
@@ -125,13 +127,13 @@ namespace BookCatAPI.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Userlogin)
             };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("4f5g6h7j8k9l0m1n2o3p4q5r6s7t8u9v"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                issuer: "JwtIssuer",
-                audience: "JwtAudience",
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(30),
+                expires: DateTime.Now.AddDays(60),
                 signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -179,11 +181,13 @@ namespace BookCatAPI.Controllers
             }
 
             var today = DateTime.Today;
+            var fiveDaysFromNow = today.AddDays(5);
 
-            var usersInWaiting = await _context.Users
+            var usersWithRelevantLibraries = await _context.Users
                 .Include(u => u.Libraries)
                 .Where(u => u.Libraries.Any(l =>
-                    l.DataEndPlan == null || l.DataEndPlan.Value.Date == today))
+                    l.Status == "pending" || 
+                    (l.Status == "active" && l.DataEndPlan.HasValue && l.DataEndPlan.Value.Date >= today && l.DataEndPlan.Value.Date <= fiveDaysFromNow)))
                 .Select(u => new
                 {
                     u.Id,
@@ -193,17 +197,21 @@ namespace BookCatAPI.Controllers
                         ? null
                         : "/" + u.Userimage.Replace("\\", "/"),
                     CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
-                    Libraries = u.Libraries.Select(l => new
-                    {
-                        l.Id,
-                        l.Status,
-                        l.PlanId,
-                        DataEndPlan = l.DataEndPlan.HasValue ? l.DataEndPlan.Value.ToString("yyyy-MM-dd") : null
-                    })
+                    Libraries = u.Libraries
+                        .Where(l =>
+                            l.Status == "pending" ||
+                            (l.Status == "active" && l.DataEndPlan.HasValue && l.DataEndPlan.Value.Date >= today && l.DataEndPlan.Value.Date <= fiveDaysFromNow))
+                        .Select(l => new
+                        {
+                            l.Id,
+                            l.Status,
+                            l.PlanId,
+                            DataEndPlan = l.DataEndPlan.HasValue ? l.DataEndPlan.Value.ToString("yyyy-MM-dd") : null
+                        })
                 })
                 .ToListAsync();
 
-            return Ok(usersInWaiting);
+            return Ok(usersWithRelevantLibraries);
         }
 
         [Authorize]
@@ -221,8 +229,16 @@ namespace BookCatAPI.Controllers
                 return NotFound("Бібліотека не знайдена.");
             }
 
-            library.DataEndPlan = DateTime.Today.AddDays(30);
-            library.Status = "active"; // Можна змінити статус, якщо потрібно
+            if (library.DataEndPlan == null)
+            {
+                library.DataEndPlan = DateTime.Today.AddDays(30);
+            }
+            else
+            {
+                library.DataEndPlan = library.DataEndPlan.Value.AddDays(30);
+            }
+
+            library.Status = "active";
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Платіж підтверджено", newEndDate = library.DataEndPlan.Value.ToString("yyyy-MM-dd") });
@@ -276,7 +292,9 @@ namespace BookCatAPI.Controllers
             var users = await _context.Users
                 .Include(u => u.Libraries)
                 .Where(u => u.Libraries.Any(l =>
-                    l.DataEndPlan.HasValue && l.DataEndPlan.Value.Date < today))
+                    (l.DataEndPlan.HasValue && today.Subtract(l.DataEndPlan.Value.Date).TotalDays >= 60) ||
+                    (l.DataEndPlan == null && today.Subtract(u.CreateAt.Date).TotalDays >= 30)
+                ))
                 .Select(u => new
                 {
                     u.Id,
@@ -314,11 +332,68 @@ namespace BookCatAPI.Controllers
                 return NotFound("Бібліотека не знайдена.");
             }
 
-            library.DataEndPlan = null;
             library.Status = "banned";
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Користувача заблоковано", status = library.Status });
+        }
+
+        [Authorize]
+        [HttpGet("pending-list")]
+        public async Task<IActionResult> GetPendingUsers()
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var today = DateTime.Today;
+
+            var users = await _context.Users
+                .Include(u => u.Libraries)
+                .Where(u => u.Libraries.Any(l =>
+                    l.DataEndPlan.HasValue && today.Subtract(l.DataEndPlan.Value.Date).TotalDays < 30 && today.Subtract(l.DataEndPlan.Value.Date).TotalDays > 0))
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Username,
+                    u.Userlogin,
+                    Userimage = string.IsNullOrEmpty(u.Userimage)
+                        ? null
+                        : "/" + u.Userimage.Replace("\\", "/"),
+                    CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
+                    Libraries = u.Libraries.Select(l => new
+                    {
+                        l.Id,
+                        l.Status,
+                        l.PlanId,
+                        DataEndPlan = l.DataEndPlan.HasValue ? l.DataEndPlan.Value.ToString("yyyy-MM-dd") : null
+                    })
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
+        [Authorize]
+        [HttpPost("mark-user-pending")]
+        public async Task<IActionResult> MarkUserPending([FromBody] int libraryId)
+        {
+            if (!Request.Headers.TryGetValue("X-Requested-From", out var origin) || origin != "BookCatApp")
+            {
+                return Unauthorized("Невірне джерело запиту.");
+            }
+
+            var library = await _context.Libraries.FirstOrDefaultAsync(l => l.Id == libraryId);
+            if (library == null)
+            {
+                return NotFound("Бібліотека не знайдена.");
+            }
+
+            library.Status = "pending";
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Статус користувача змінено на 'pending'", status = library.Status });
         }
 
         [Authorize]
