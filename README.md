@@ -9,4 +9,4 @@ BookCatApi - апі на c#
 
 У React тепер є глобальна змінна для запитів. Вона знаходиться у src\axiosInstance.js. Її назва - API_BASE_URL
 
-АЛЕ!!! Поміняти localhost для зображень в InWaitingUser, UserCard, "UserChat", Header, HeaderAdmin, "MessageItem", AllDocumentPage
+АЛЕ!!! Поміняти localhost для зображень в InWaitingUser, UserCard, "UserChat", Header, HeaderAdmin, "MessageItem", AllDocumentPage, PendingUser, ArticleCard, renderContent, ArticlePage
