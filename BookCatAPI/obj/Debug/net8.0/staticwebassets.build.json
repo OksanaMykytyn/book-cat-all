@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "v3+RPqV0+ZANha5P8L3QlViM/k0MTTd4OEln3NKd/Ic=",
+  "Hash": "u4lUHbT23bOMblHYlz6sSpWHs8xrcaBff5TuupXNDU0=",
   "Source": "BookCatAPI",
   "BasePath": "_content/BookCatAPI",
   "Mode": "Default",
@@ -262,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\LibraryFiles\\4\\2025-08-08\\списання.docx"
+    },
+    {
+      "Identity": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\2025-08-11\\Акт списання 2025.docx",
+      "SourceId": "BookCatAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\",
+      "BasePath": "_content/BookCatAPI",
+      "RelativePath": "LibraryFiles/4/2025-08-11/Акт списання 2025.docx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\LibraryFiles\\4\\2025-08-11\\Акт списання 2025.docx"
     },
     {
       "Identity": "D:\\Основне\\Інститут\\3 курс\\2 семестр\\BookCat\\BookCatAPI\\wwwroot\\LibraryFiles\\4\\images\\2025-08-08\\1f810696567a3a772033d5533feb375a.jpg",

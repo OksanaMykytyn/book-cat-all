@@ -21,14 +21,16 @@ namespace BookCatAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly BookCatDbContext _context;
+        private readonly ILogger<BookController> _logger;
         private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
         private readonly IConfiguration _configuration;
 
 
-        public UserController(BookCatDbContext context, IConfiguration configuration)
+        public UserController(BookCatDbContext context, IConfiguration configuration, ILogger<BookController> logger)
         {
             _context = context;
             _configuration = configuration;
+            _logger = logger;
         }
         
         [HttpPost("register")]
@@ -98,14 +100,21 @@ namespace BookCatAPI.Controllers
             {
                 return BadRequest("Неправильний логін або пароль.");
             }
+
+            _logger.LogInformation("Отриманий пароль для '{UserLogin}' має довжину: {Length}", userLoginDto.Userlogin, userLoginDto.Userpassword.Length);
+            _logger.LogInformation("Отриманий пароль: '{Password}'", userLoginDto.Userpassword);
+
+
             if (user.Userpassword == userLoginDto.Userpassword)
             {
+                _logger.LogInformation("Пароль користувача '{UserLogin}' було оновлено (від нехешованого до хешованого).", userLoginDto.Userlogin);
                 user.Userpassword = _passwordHasher.HashPassword(user, userLoginDto.Userpassword);
                 await _context.SaveChangesAsync();
             }
             else
             {
                 var result = _passwordHasher.VerifyHashedPassword(user, user.Userpassword, userLoginDto.Userpassword);
+                _logger.LogInformation("Результат верифікації пароля для '{UserLogin}': {Result}", userLoginDto.Userlogin, result.ToString());
                 if (result == PasswordVerificationResult.Failed)
                 {
                     return BadRequest("Неправильний логін або пароль.");
