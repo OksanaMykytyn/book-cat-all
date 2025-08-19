@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using BookCatAPI.Models.DTOs;
+using Microsoft.Extensions.Configuration;
 
 namespace BookCatAPI.Controllers
 {
@@ -14,14 +15,15 @@ namespace BookCatAPI.Controllers
     {
         private readonly BookCatDbContext _context;
         private readonly ILogger<LibraryController> _logger;
-        private readonly IWebHostEnvironment _env;
-        
-        public LibraryController(BookCatDbContext context, ILogger<LibraryController> logger, IWebHostEnvironment env)
+        private readonly IConfiguration _configuration;
+        private readonly string _uploadPath;
+
+        public LibraryController(BookCatDbContext context, ILogger<LibraryController> logger, IConfiguration configuration)
         {
             _context = context;
             _logger = logger;
-            _env = env;
-
+            _configuration = configuration;
+            _uploadPath = _configuration.GetValue<string>("AppConfig:UploadPath");
         }
 
         [Authorize]
@@ -130,7 +132,7 @@ namespace BookCatAPI.Controllers
                 login = library.User.Userlogin,
                 image = string.IsNullOrEmpty(library.User.Userimage)
                     ? null
-                    : "/" + library.User.Userimage.Replace("\\", "/"),
+                    : $"{Request.Scheme}://{Request.Host}/library-uploads/" + library.User.Userimage.Replace("\\", "/"),
                 booksCount = library.Books.Count(),
                 planId = library.PlanId,
                 maxBooks = library.Plan?.MaxBooks,
@@ -199,39 +201,33 @@ namespace BookCatAPI.Controllers
 
             if (image != null && image.Length > 0)
             {
-                var newFileName = Path.GetFileName(image.FileName);
-                var currentFileName = Path.GetFileName(library.User.Userimage ?? "");
+                var newFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName); 
 
-                if (!string.Equals(newFileName, currentFileName, StringComparison.OrdinalIgnoreCase))
-                {
-                    var dateFolder = DateTime.Now.ToString("yyyy-MM-dd");
-                    var relativePath = Path.Combine("LibraryFiles", library.Id.ToString(), "images", dateFolder);
-                    var fullFolderPath = Path.Combine(_env.WebRootPath!, relativePath);
+                var relativePath = Path.Combine(library.Id.ToString(), "images");
+                var fullFolderPath = Path.Combine(_uploadPath, relativePath);
 
-                    Directory.CreateDirectory(fullFolderPath);
+                Directory.CreateDirectory(fullFolderPath);
 
-                    var fullFilePath = Path.Combine(fullFolderPath, newFileName);
-                    using var stream = new FileStream(fullFilePath, FileMode.Create);
-                    await image.CopyToAsync(stream);
+                var fullFilePath = Path.Combine(fullFolderPath, newFileName);
+                using var stream = new FileStream(fullFilePath, FileMode.Create);
+                await image.CopyToAsync(stream);
 
-                    var relativeFilePath = Path.Combine(relativePath, newFileName).Replace("\\", "/");
-                    library.User.Userimage = relativeFilePath;
-                }
+                var relativeFilePath = Path.Combine(relativePath, newFileName);
+                library.User.Userimage = relativeFilePath.Replace("\\", "/"); 
 
                 await _context.SaveChangesAsync();
+
+                var imageUrl = $"{Request.Scheme}://{Request.Host}/library-uploads/" + library.User.Userimage;
 
                 return Ok(new
                 {
                     message = "Зображення оновлено.",
-                    imageUrl = "/" + library.User.Userimage.Replace("\\", "/")
+                    imageUrl = imageUrl
                 });
             }
 
             return BadRequest("Файл зображення не завантажено.");
         }
 
-
-
-
-    }
+}
 }

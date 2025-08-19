@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookCatAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36076eaaa4ecfe6bfd11fe77e22a947bd423290c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8a6bbfdf0ef297381fb2fc646f7860e0d77969f")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookCatAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookCatAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

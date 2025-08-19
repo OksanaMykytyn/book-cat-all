@@ -12,10 +12,19 @@ namespace BookCatAPI.Controllers
     public class ArticleController : ControllerBase
     {
         private readonly BookCatDbContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
+        private readonly string _uploadPath;
+        private readonly string _articlesPath;
 
-        public ArticleController(BookCatDbContext context)
+        public ArticleController(BookCatDbContext context, IConfiguration configuration, IWebHostEnvironment env)
         {
             _context = context;
+            _configuration = configuration;
+            _env = env;
+            _uploadPath = _configuration.GetValue<string>("AppConfig:UploadPath");
+            _articlesPath = Path.Combine(_uploadPath, "articles");
+            Directory.CreateDirectory(_articlesPath);
         }
 
         [HttpGet]
@@ -26,7 +35,21 @@ namespace BookCatAPI.Controllers
                 return Unauthorized("Невірне джерело запиту.");
             }
 
-            var articles = await _context.Articles.OrderByDescending(a => a.CreatedAt).ToListAsync();
+            var articles = await _context.Articles
+                .OrderByDescending(a => a.CreatedAt)
+                .Select(a => new Article
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Category = a.Category,
+                    Slug = a.Slug,
+                    Content = a.Content,
+                    CreatedAt = a.CreatedAt,
+                    UpdatedAt = a.UpdatedAt,
+                    CoverImage = a.CoverImage == null ? null : $"{Request.Scheme}://{Request.Host}/library-uploads/articles/{a.CoverImage}"
+                })
+                .ToListAsync();
+
             return Ok(articles);
         }
 
@@ -40,6 +63,11 @@ namespace BookCatAPI.Controllers
 
             var article = await _context.Articles.FindAsync(id);
             if (article == null) return NotFound();
+
+            if (!string.IsNullOrEmpty(article.CoverImage))
+            {
+                article.CoverImage = $"{Request.Scheme}://{Request.Host}/library-uploads/articles/{article.CoverImage}";
+            }
 
             return Ok(article);
         }
@@ -56,6 +84,11 @@ namespace BookCatAPI.Controllers
             if (article == null)
             {
                 return NotFound();
+            }
+
+            if (!string.IsNullOrEmpty(article.CoverImage))
+            {
+                article.CoverImage = $"{Request.Scheme}://{Request.Host}/library-uploads/articles/{article.CoverImage}";
             }
 
             return Ok(article);
@@ -91,7 +124,7 @@ namespace BookCatAPI.Controllers
 
             if (dto.CoverImageFile != null && dto.CoverImageFile.Length > 0)
             {
-                if (dto.CoverImageFile.Length > 5 * 1024 * 1024) // 5 MB
+                if (dto.CoverImageFile.Length > 5 * 1024 * 1024)
                 {
                     return BadRequest("Розмір файлу не повинен перевищувати 5 МБ.");
                 }
@@ -104,20 +137,14 @@ namespace BookCatAPI.Controllers
                 }
 
                 var fileName = $"{Guid.NewGuid()}{fileExtension}";
-                var filePath = Path.Combine("wwwroot", "images", "articles", fileName);
-
-                var directoryPath = Path.GetDirectoryName(filePath);
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
+                var filePath = Path.Combine(_articlesPath, fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await dto.CoverImageFile.CopyToAsync(stream);
                 }
 
-                article.CoverImage = $"/images/articles/{fileName}";
+                article.CoverImage = fileName; 
             }
 
             _context.Articles.Add(article);
@@ -149,7 +176,7 @@ namespace BookCatAPI.Controllers
 
             if (dto.CoverImageFile != null && dto.CoverImageFile.Length > 0)
             {
-                if (dto.CoverImageFile.Length > 5 * 1024 * 1024) // 5 MB
+                if (dto.CoverImageFile.Length > 5 * 1024 * 1024)
                 {
                     return BadRequest("Розмір файлу не повинен перевищувати 5 МБ.");
                 }
@@ -163,28 +190,22 @@ namespace BookCatAPI.Controllers
 
                 if (!string.IsNullOrEmpty(article.CoverImage))
                 {
-                    var oldFilePath = Path.Combine("wwwroot", article.CoverImage.TrimStart('/'));
+                    var oldFilePath = Path.Combine(_articlesPath, article.CoverImage);
                     if (System.IO.File.Exists(oldFilePath))
                     {
                         System.IO.File.Delete(oldFilePath);
                     }
                 }
-
+             
                 var fileName = $"{Guid.NewGuid()}{fileExtension}";
-                var filePath = Path.Combine("wwwroot", "images", "articles", fileName);
-                var directoryPath = Path.GetDirectoryName(filePath);
-
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
+                var filePath = Path.Combine(_articlesPath, fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await dto.CoverImageFile.CopyToAsync(stream);
                 }
 
-                article.CoverImage = $"/images/articles/{fileName}";
+                article.CoverImage = fileName; 
             }
 
             _context.Articles.Update(article);

@@ -19,13 +19,17 @@ namespace BookCatAPI.Controllers
     {
         private readonly BookCatDbContext _context;
         private readonly ILogger<DocumentController> _logger;
+        private readonly IConfiguration _configuration; 
         private readonly IWebHostEnvironment _env;
+        private readonly string _uploadPath;
 
-        public DocumentController(BookCatDbContext context, ILogger<DocumentController> logger, IWebHostEnvironment env)
+        public DocumentController(BookCatDbContext context, ILogger<DocumentController> logger, IConfiguration configuration, IWebHostEnvironment env)
         {
             _context = context;
             _logger = logger;
+            _configuration = configuration;
             _env = env;
+            _uploadPath = _configuration.GetValue<string>("AppConfig:UploadPath");
         }
 
         [Authorize]
@@ -37,9 +41,9 @@ namespace BookCatAPI.Controllers
                 return Unauthorized("Невірне джерело запиту.");
             }
 
-            if (string.IsNullOrEmpty(_env.WebRootPath))
+            if (string.IsNullOrEmpty(_uploadPath))
             {
-                return StatusCode(500, "WebRootPath не налаштований.");
+                return StatusCode(500, "Шлях для завантажень не налаштований.");
             }
 
             if (string.IsNullOrWhiteSpace(dto.Name))
@@ -57,12 +61,13 @@ namespace BookCatAPI.Controllers
             string dateFolder = dateNow.ToString("yyyy-MM-dd");
 
             var fileName = $"{dto.Name}.docx";
-            string relativePath = Path.Combine("LibraryFiles", library.Id.ToString(), dateFolder);
-            string fullDirectoryPath = Path.Combine(_env.WebRootPath, relativePath);
+            string relativePath = Path.Combine(library.Id.ToString(), "documents", dateFolder);
+            string fullDirectoryPath = Path.Combine(_uploadPath, relativePath);
             Directory.CreateDirectory(fullDirectoryPath);
 
             string fullFilePath = Path.Combine(fullDirectoryPath, fileName);
-            string fileUrl = $"/{relativePath.Replace("\\", "/")}/{fileName}";
+            string fileRelativeUrl = Path.Combine(relativePath, fileName).Replace("\\", "/");
+            string fileUrl = $"/library-uploads/{fileRelativeUrl}";
 
             List<Book> books;
 
@@ -72,7 +77,7 @@ namespace BookCatAPI.Controllers
                 DateTime to = dto.DateTo.Value.Date.AddDays(1).AddTicks(-1);
                 books = await _context.Books
                     .Where(b => b.Removed != null && b.Removed >= from && b.Removed <= to && b.LibraryId == library.Id)
-                    .OrderBy(b => b.InventoryNumber) 
+                    .OrderBy(b => b.InventoryNumber)
                     .ToListAsync();
 
                 await GenerateWriteOffAct(fullFilePath, books);
@@ -85,12 +90,16 @@ namespace BookCatAPI.Controllers
 
                 await GenerateInventoryBook(fullFilePath, books, dto.Name);
             }
+            else
+            {
+                return BadRequest("Невірний формат документу.");
+            }
 
             var document = new Models.Document
             {
                 Name = dto.Name,
                 Format = dto.Format == "writeOffAct" ? "removed" : "allbooks",
-                Url = fileUrl,
+                Url = fileUrl, 
                 LibraryId = library.Id,
                 CreateAt = dateNow,
                 DateStart = dto.Format == "writeOffAct" ? dto.DateFrom : null,
@@ -191,9 +200,7 @@ namespace BookCatAPI.Controllers
                 wordDoc.MainDocumentPart.Document.Save();
             }
         }
-
-
-
+        
         private static TableCell CreateTableCell(string text, JustificationValues align, bool bold = false)
         {
             var runProps = new RunProperties(
@@ -311,7 +318,7 @@ namespace BookCatAPI.Controllers
                 .Select(d => new DocumentInfoDto
                 {
                     Name = d.Name,
-                    Url = d.Url,
+                    Url = $"{Request.Scheme}://{Request.Host}{d.Url}",
                     CreateAt = d.CreateAt
                 })
                 .ToListAsync();

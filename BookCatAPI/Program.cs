@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,7 +86,20 @@ app.UseCors("AllowReactApp");
 app.UseRouting(); 
 
 
-app.UseAuthentication(); 
+app.UseAuthentication();
+
+var uploadPath = builder.Configuration.GetValue<string>("AppConfig:UploadPath");
+if (!string.IsNullOrEmpty(uploadPath) && !Directory.Exists(uploadPath))
+{
+    Directory.CreateDirectory(uploadPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadPath),
+    RequestPath = "/library-uploads" 
+});
+
 app.UseAuthorization();  
 
 

@@ -183,7 +183,7 @@ namespace BookCatAPI.Controllers
                 username = user.Username,
                 image = string.IsNullOrEmpty(user.Userimage)
                     ? null
-                    : "/" + user.Userimage.Replace("\\", "/") 
+                    : $"{Request.Scheme}://{Request.Host}/library-uploads/" + user.Userimage.Replace("\\", "/")
             });
         }
 
@@ -211,7 +211,7 @@ namespace BookCatAPI.Controllers
                     u.Userlogin,
                     Userimage = string.IsNullOrEmpty(u.Userimage)
                         ? null
-                        : "/" + u.Userimage.Replace("\\", "/"),
+                        : $"{Request.Scheme}://{Request.Host}/library-uploads/" + u.Userimage.Replace("\\", "/"),
                     CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
                     Libraries = u.Libraries
                         .Where(l =>
@@ -279,7 +279,7 @@ namespace BookCatAPI.Controllers
                     u.Userlogin,
                     Userimage = string.IsNullOrEmpty(u.Userimage)
                         ? null
-                        : "/" + u.Userimage.Replace("\\", "/"),
+                        : $"{Request.Scheme}://{Request.Host}/library-uploads/" + u.Userimage.Replace("\\", "/"),
                     CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
                     Libraries = u.Libraries.Select(l => new
                     {
@@ -318,7 +318,7 @@ namespace BookCatAPI.Controllers
                     u.Userlogin,
                     Userimage = string.IsNullOrEmpty(u.Userimage)
                         ? null
-                        : "/" + u.Userimage.Replace("\\", "/"),
+                        : $"{Request.Scheme}://{Request.Host}/library-uploads/" + u.Userimage.Replace("\\", "/"),
                     CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
                     Libraries = u.Libraries.Select(l => new
                     {
@@ -376,7 +376,7 @@ namespace BookCatAPI.Controllers
                     u.Userlogin,
                     Userimage = string.IsNullOrEmpty(u.Userimage)
                         ? null
-                        : "/" + u.Userimage.Replace("\\", "/"),
+                        : $"{Request.Scheme}://{Request.Host}/library-uploads/" + u.Userimage.Replace("\\", "/"),
                     CreateAt = u.CreateAt.ToString("yyyy-MM-dd"),
                     Libraries = u.Libraries.Select(l => new
                     {
